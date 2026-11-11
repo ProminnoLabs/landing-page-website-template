@@ -1,0 +1,3 @@
+# Keep GitHub's language bar focused on real source code
+*.html linguist-detectable=false
+public/** linguist-vendored

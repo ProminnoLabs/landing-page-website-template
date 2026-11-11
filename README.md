@@ -1,174 +1,36 @@
-<div align="center">
+# Backend Examples
 
-# Landing Page Website Template
+The landing page is design-only, so its contact and booking forms don't send data anywhere.
+These small examples show how to add a backend. Each one exposes the same two endpoints:
 
-**A modern, cinematic React landing page template with smooth scroll animations. Built for hotels, studios and hospitality brands, and easy to adapt to any business.**
+| Method | Path | Purpose |
+| --- | --- | --- |
+| `GET` | `/api/health` | Health check |
+| `POST` | `/api/contact` | Validates `name`, `email` and `message`, then accepts the enquiry |
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-FF6A1A?style=for-the-badge)](https://prominnolabs.github.io/landing-page-website-template/)
-![React](https://img.shields.io/badge/React-19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![Vite](https://img.shields.io/badge/Vite-7-646CFF?style=for-the-badge&logo=vite&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+Request body:
 
-**[View Live Demo →](https://prominnolabs.github.io/landing-page-website-template/)**
-
-</div>
-
-<!-- Add a screenshot of the live demo: save it as docs/screenshot.png, then uncomment the line below.
-![Landing page preview](docs/screenshot.png)
--->
-
----
-
-## ✨ Features
-
-- **Editorial, cinematic design** with a cream canvas, ivy and clay accents, and serif headlines
-- **Fully responsive** layout for mobile, tablet and desktop
-- **Scroll-driven animations:** hero expansion, reveal-on-scroll, parallax, stacked cards and highlighted text
-- **Animated page loader** and auto-hiding header with a mobile menu sheet
-- **Draggable photo gallery**, animated counters and a live clock widget
-- **Floating booking dock** (UI only, with no backend)
-- **Zero animation dependencies.** All interactions use plain JavaScript in one small file
-- **One-push deployment** to GitHub Pages with the included workflow
-
-## 📄 Sections Included
-
-| Section | Description |
-| --- | --- |
-| Header | Floating navigation with mobile menu |
-| Hero | Large headline with an expanding image on scroll |
-| About | Manifesto text that lights up word by word |
-| A Day Here | Time-of-day storytelling section |
-| Rooms | Room cards with images and details |
-| Amenities | Bento-style feature grid |
-| Gallery | Draggable image gallery |
-| Find Us | Location and directions |
-| Reviews | Guest ratings and booking partner logos |
-| Call to action | Closing section with a booking prompt |
-| Footer | Links and contact details |
-
-## 🛠️ Tech Stack
-
-- [React 19](https://react.dev/)
-- [Vite 7](https://vite.dev/)
-- Plain CSS with custom properties (no CSS framework)
-- Vanilla JavaScript for animations
-
-## 🚀 Getting Started
-
-**Requirements:** [Node.js](https://nodejs.org/) 20 or newer.
-
-```bash
-# 1. Clone the repository
-git clone https://github.com/ProminnoLabs/landing-page-website-template.git
-cd landing-page-website-template
-
-# 2. Install dependencies
-npm install
-
-# 3. Start the dev server
-npm run dev
+```json
+{ "name": "Asha", "email": "asha@example.com", "message": "Is the studio room available on 12 Dec?" }
 ```
 
-Open the local URL that Vite prints (usually `http://localhost:5173`).
+Pick the stack you prefer:
 
-### Available Scripts
+| Folder | Stack | Run |
+| --- | --- | --- |
+| [`dotnet-api`](./dotnet-api) | C# / ASP.NET Core minimal API | `dotnet run` |
+| [`python-api`](./python-api) | Python / FastAPI | `uvicorn main:app --reload` |
+| [`node-api`](./node-api) | Node.js / Express | `npm start` |
 
-| Command | What it does |
-| --- | --- |
-| `npm run dev` | Starts the development server with hot reload |
-| `npm run build` | Creates a production build in `dist/` |
-| `npm run preview` | Serves the production build locally |
+All three allow requests from `http://localhost:5173` (the Vite dev server) and from the GitHub Pages demo.
+They log the enquiry. Replace the `TODO` with your email service, database or CRM call.
 
-## 📁 Project Structure
+## Calling it from the page
 
-```text
-landing-page-website-template/
-├── .github/workflows/deploy.yml   # GitHub Pages deployment
-├── public/
-│   ├── assets/
-│   │   ├── global/                # Icon fonts and CSS (Font Awesome, Line Awesome)
-│   │   └── images/                # Photos, room images and partner logos
-│   └── home-v3.js                 # Scroll animations and interactions
-├── src/
-│   ├── main.jsx                   # React entry point
-│   ├── page.html                  # Page markup (all sections and text)
-│   └── home-v3.css                # All styles
-├── index.html
-├── vite.config.js
-└── package.json
+```js
+const res = await fetch('http://localhost:5000/api/contact', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ name, email, message }),
+});
 ```
-
-## 🎨 Customization
-
-**Change the content.** Edit `src/page.html`. All headings, paragraphs, room details and links live there.
-
-**Change the colors and fonts.** Open `src/home-v3.css` and edit the variables at the top:
-
-```css
-:root {
-  --cream: #f3eee5;   /* page background */
-  --ink:   #141613;   /* main text */
-  --ivy:   #234b33;   /* primary accent */
-  --clay:  #c66a3d;   /* secondary accent */
-  --serif: "Instrument Serif", serif;
-  --sans:  "Inter Tight", system-ui, sans-serif;
-}
-```
-
-To use different fonts, update the Google Fonts link in `index.html` and the two font variables above.
-
-**Replace the images.** Put your files in `public/assets/images/` using the same names, or update the paths in `src/page.html`. WebP images keep the page fast.
-
-**Adjust animations.** Edit `public/home-v3.js`. Each effect (loader, reveals, gallery, dock, parallax) is a clearly labelled block.
-
-## 🌐 Deploy to GitHub Pages
-
-This repo deploys automatically on every push to `main`.
-
-1. Open **Settings → Pages**.
-2. Under **Source**, choose **GitHub Actions**.
-3. Push to `main` and watch the run in the **Actions** tab.
-4. Your site will be live at `https://<your-username>.github.io/<repo-name>/`.
-
-> **Important:** The `base` option in `vite.config.js` must match your repository name exactly.
->
-> ```js
-> export default defineConfig({
->   plugins: [react()],
->   base: '/landing-page-website-template/', // change to '/your-repo-name/'
-> });
-> ```
->
-> If you deploy to a custom domain or the root of a user site, set `base: '/'`.
-
-Paths in `src/page.html` that start with `/` (for example `/assets/images/...`) are prefixed with the base automatically in `src/main.jsx`.
-
-## ⚠️ Notes
-
-- This is a **design-only** template. Booking buttons and forms are not connected to any backend.
-- The sample photos, hotel name and text are placeholders. **Replace them with your own** before using the template for a real business.
-- Booking-partner logos (Agoda, MakeMyTrip, Goibibo, Yatra and others) are trademarks of their respective owners and are shown for demonstration only.
-
-## 🤝 Contributing
-
-Contributions, issues and ideas are welcome.
-
-1. Fork the repository
-2. Create a branch: `git checkout -b feat/my-improvement`
-3. Commit your changes: `git commit -m "feat: add my improvement"`
-4. Push the branch and open a pull request
-
-## 📜 License
-
-Released under the [MIT License](LICENSE).
-
-## 💬 Contact
-
-Built by **[Prominno Labs](https://prominno.com/)**
-
-- 🌐 Website: [prominno.com](https://prominno.com/)
-- ✉️ Email: [info@prominno.com](mailto:info@prominno.com)
-- 💼 LinkedIn: [Prominno Labs](https://www.linkedin.com/company/prominno-labs-private-limited/)
-- 🐦 X: [@Prominno_pvt](https://x.com/Prominno_pvt)
-
-If this template helps you, please ⭐ star the repo.
